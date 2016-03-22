@@ -81,7 +81,7 @@ module Ping {
                     };
                     break;
                 default:
-                    return {
+                    result = {
                         top: this.position.y,
                         bottom: this.position.y + this.height
                     };

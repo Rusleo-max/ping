@@ -31,12 +31,12 @@ module Ping {
         gameAreaWidth : 480,
         gameAreaBackgroundColour : '#000000',
         paddleWidth : 10,
-        paddleHeight : 40,
+        paddleHeight : 50,
         paddleInset : 10,
-        paddleSpeed : 8,
+        paddleSpeed : 10,
         paddleColour : '#FFFFFF',
         ballRadius : 5,
-        ballSpeed: 15,
+        ballSpeed: 18,
         ballColour: '#FFFFFF',
         winningScore : 10,
         clockInterval : 50
@@ -47,14 +47,14 @@ module Ping {
         scoreTextFont: '20px Monospace',
         scoreTextTopMargin: 10,
         messageMaskStyle : 'rgba(0, 0, 0, 0.75)',
-        messageTextFont : '25px Arial',
+        messageTextFont : '20px Arial',
         messageTextStyle: '#FFFFFF'
     };
 
     messages = {
         ready: 'Click to play',
         paused: 'Paused',
-        gameOver: 'Game Over. Click to play again.'
+        gameOver: 'Click to play again'
     };
 
     game = new Game(inputListener, canvas, gameSettings, rendererSettings, messages);

@@ -74,15 +74,7 @@ module Ping {
         }
 
         private getNewDirection () : number {
-            return Math.PI;
-            /*return Math.random() < 0.5 ?
-                Math.random() < 0.5 ?
-                    Math.random() * Math.PI / 6 :
-                    Math.random() * Math.PI / 6 * -1 :
-                Math.random() < 0.5 ?
-                    Math.PI - Math.random() * Math.PI / 6 :
-                    Math.PI * -1 - Math.random() * Math.PI / 6;
-                    */
+            return Math.random() < 0.5 ? Math.PI : 0;
         }
     }
 }

@@ -1,6 +1,7 @@
 # ping
-Typescript pong clone experiment
+A Pong like game made as an attempt to learn [TypeScript](http://www.typescriptlang.org).
 
-Compile typescript with:
+[See the demo](http://gilessmart.github.io/ping).
 
+Compile TypeScript with:
 > tsc @args.txt

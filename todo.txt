@@ -1,1 +1,1 @@
-namespacing
+refactor into sensible namespaces

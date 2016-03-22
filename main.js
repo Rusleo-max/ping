@@ -1,3 +1,8 @@
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
 var Ping;
 (function (Ping) {
     var Event = (function () {
@@ -13,7 +18,7 @@ var Ping;
             this.callbacks.push(func);
         };
         return Event;
-    })();
+    }());
     Ping.Event = Event;
 })(Ping || (Ping = {}));
 /// <reference path="Event.ts" />
@@ -56,17 +61,11 @@ var Ping;
             this.start.register(callBack);
         };
         return InputListener;
-    })();
+    }());
     Ping.InputListener = InputListener;
 })(Ping || (Ping = {}));
 /// <reference path="InputListener.ts" />
 /// <reference path="KeyMap.ts" />
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 var Ping;
 (function (Ping) {
     var KeyboardAndMouseInputListener = (function (_super) {
@@ -122,7 +121,7 @@ var Ping;
             });
         }
         return KeyboardAndMouseInputListener;
-    })(Ping.InputListener);
+    }(Ping.InputListener));
     Ping.KeyboardAndMouseInputListener = KeyboardAndMouseInputListener;
 })(Ping || (Ping = {}));
 var Ping;
@@ -134,7 +133,7 @@ var Ping;
             this.backgroundColour = backgroundColour;
         }
         return GameArea;
-    })();
+    }());
     Ping.GameArea = GameArea;
 })(Ping || (Ping = {}));
 var Ping;
@@ -145,7 +144,7 @@ var Ping;
             this.y = y;
         }
         return Position;
-    })();
+    }());
     Ping.Position = Position;
 })(Ping || (Ping = {}));
 /// <reference path="Position.ts" />
@@ -184,7 +183,8 @@ var Ping;
         };
         Ball.prototype.isMovingRight = function () {
             var normalizedDirection = this.getNormalizedDirection();
-            return 0 <= normalizedDirection && normalizedDirection < 0.5 * Math.PI || 1.5 * Math.PI < normalizedDirection && normalizedDirection < 2 * Math.PI;
+            return 0 <= normalizedDirection && normalizedDirection < 0.5 * Math.PI ||
+                1.5 * Math.PI < normalizedDirection && normalizedDirection < 2 * Math.PI;
         };
         Ball.prototype.isMovingLeft = function () {
             var normalizedDirection = this.getNormalizedDirection();
@@ -200,18 +200,10 @@ var Ping;
             return new Ping.Position(this.centrePosition.x + this.getHorizontalSpeed() * stepAmount, this.centrePosition.y + this.getVerticalSpeed() * stepAmount);
         };
         Ball.prototype.getNewDirection = function () {
-            return Math.PI;
-            /*return Math.random() < 0.5 ?
-                Math.random() < 0.5 ?
-                    Math.random() * Math.PI / 6 :
-                    Math.random() * Math.PI / 6 * -1 :
-                Math.random() < 0.5 ?
-                    Math.PI - Math.random() * Math.PI / 6 :
-                    Math.PI * -1 - Math.random() * Math.PI / 6;
-                    */
+            return Math.random() < 0.5 ? Math.PI : 0;
         };
         return Ball;
-    })();
+    }());
     Ping.Ball = Ball;
 })(Ping || (Ping = {}));
 var Ping;
@@ -240,7 +232,7 @@ var Ping;
         }
         Paddle.prototype.reset = function () {
             this.position.y = this.getInitialYPosition();
-            this.direction = 2 /* none */;
+            this.direction = Ping.Direction.none;
         };
         Paddle.prototype.getInitialYPosition = function () {
             return (this.bottomLimit - this.topLimit) / 2 - this.height / 2;
@@ -248,7 +240,7 @@ var Ping;
         Paddle.prototype.move = function (stepAmount) {
             var distance = stepAmount * this.speed;
             switch (this.direction) {
-                case 1 /* down */:
+                case Ping.Direction.down:
                     if (this.position.y + this.height + distance >= this.bottomLimit) {
                         this.position.y = this.bottomLimit - this.height;
                     }
@@ -256,7 +248,7 @@ var Ping;
                         this.position.y += distance;
                     }
                     break;
-                case 0 /* up */:
+                case Ping.Direction.up:
                     if (this.position.y - distance <= this.topLimit) {
                         this.position.y = this.topLimit;
                     }
@@ -275,20 +267,20 @@ var Ping;
         Paddle.prototype.getProjectedYPositions = function (stepAmount) {
             var distance = stepAmount * this.speed, result;
             switch (this.direction) {
-                case 0 /* up */:
+                case Ping.Direction.up:
                     result = {
                         top: this.position.y - distance,
                         bottom: this.position.y - distance + this.height
                     };
                     break;
-                case 1 /* down */:
+                case Ping.Direction.down:
                     result = {
                         top: this.position.y + distance,
                         bottom: this.position.y + distance + this.height
                     };
                     break;
                 default:
-                    return {
+                    result = {
                         top: this.position.y,
                         bottom: this.position.y + this.height
                     };
@@ -299,10 +291,10 @@ var Ping;
         Paddle.prototype.getProjectedCentrePositionY = function (stepAmount) {
             var distance = stepAmount * this.speed, projectedTopYPosition;
             switch (this.direction) {
-                case 0 /* up */:
+                case Ping.Direction.up:
                     projectedTopYPosition = this.position.y - distance;
                     break;
-                case 1 /* down */:
+                case Ping.Direction.down:
                     projectedTopYPosition = this.position.y + distance;
                     break;
                 default:
@@ -312,7 +304,7 @@ var Ping;
             return projectedTopYPosition + this.height / 2;
         };
         return Paddle;
-    })();
+    }());
     Ping.Paddle = Paddle;
 })(Ping || (Ping = {}));
 var Ping;
@@ -326,7 +318,7 @@ var Ping;
             this.resolveCallback();
         };
         return Collision;
-    })();
+    }());
     Ping.Collision = Collision;
 })(Ping || (Ping = {}));
 /// <reference path="GameArea.ts" />
@@ -412,23 +404,26 @@ var Ping;
                 steps = paddleBallRelativeHorizontalPosition / ballHorizontalSpeed;
                 projectedPaddlePositionRange = paddle.getProjectedYPositions(steps);
                 projectedBallCentreYPosition = this.ball.getProjectedPosition(steps).y;
-                if (projectedPaddlePositionRange.top <= projectedBallCentreYPosition && projectedPaddlePositionRange.bottom >= projectedBallCentreYPosition) {
+                if (projectedPaddlePositionRange.top <= projectedBallCentreYPosition &&
+                    projectedPaddlePositionRange.bottom >= projectedBallCentreYPosition) {
                     var projectedPaddleCentrePositionY = paddle.getProjectedCentrePositionY(steps), impactRelativeYPositionFromPaddleCentre = projectedBallCentreYPosition - projectedPaddleCentrePositionY, getNewDirectionRight = function (angleRange, angleAmountAsProportion) {
                         return angleRange / 2 * angleAmountAsProportion;
                     }, getNewDirectionLeft = function (angleRange, angleAmountAsProportion) {
                         return Math.PI + angleRange / 2 * angleAmountAsProportion * -1;
-                    }, resolveCollisionCallback = this.ball.isMovingRight() ? function () {
-                        _this.ball.direction = getNewDirectionLeft(Math.PI / 2, impactRelativeYPositionFromPaddleCentre / (paddle.height / 2));
-                    } : function () {
-                        _this.ball.direction = getNewDirectionRight(Math.PI / 2, impactRelativeYPositionFromPaddleCentre / (paddle.height / 2));
-                    };
+                    }, resolveCollisionCallback = this.ball.isMovingRight() ?
+                        function () {
+                            _this.ball.direction = getNewDirectionLeft(Math.PI / 2, impactRelativeYPositionFromPaddleCentre / (paddle.height / 2));
+                        } :
+                        function () {
+                            _this.ball.direction = getNewDirectionRight(Math.PI / 2, impactRelativeYPositionFromPaddleCentre / (paddle.height / 2));
+                        };
                     result = new Ping.Collision(steps, resolveCollisionCallback);
                 }
             }
             return result;
         };
         return GameState;
-    })();
+    }());
     Ping.GameState = GameState;
 })(Ping || (Ping = {}));
 var Ping;
@@ -451,7 +446,7 @@ var Ping;
             this.gameState = gameState;
         }
         return ApplicationState;
-    })();
+    }());
     Ping.ApplicationState = ApplicationState;
 })(Ping || (Ping = {}));
 /// <reference path="Event.ts" />
@@ -475,7 +470,7 @@ var Ping;
             this.tick.register(callback);
         };
         return Clock;
-    })();
+    }());
     Ping.Clock = Clock;
 })(Ping || (Ping = {}));
 /// <reference path="ApplicationState.ts" />
@@ -498,16 +493,16 @@ var Ping;
             this.renderPaddle(this.applicationState.gameState.leftPaddle);
             this.renderPaddle(this.applicationState.gameState.rightPaddle);
             this.renderBall();
-            if (this.applicationState.state !== 1 /* playing */) {
+            if (this.applicationState.state !== Ping.ApplicationStates.playing) {
                 this.renderMask();
                 switch (this.applicationState.state) {
-                    case 0 /* ready */:
+                    case Ping.ApplicationStates.ready:
                         this.renderReadyMessage();
                         break;
-                    case 2 /* paused */:
+                    case Ping.ApplicationStates.paused:
                         this.renderPausedMessage();
                         break;
-                    case 3 /* gameOver */:
+                    case Ping.ApplicationStates.gameOver:
                         this.renderGameOverMessage();
                         break;
                 }
@@ -560,7 +555,7 @@ var Ping;
             this.context.fillText(message, centreXOffset, centreYOffset);
         };
         return Renderer;
-    })();
+    }());
     Ping.Renderer = Renderer;
 })(Ping || (Ping = {}));
 /// <reference path="GameState.ts" />
@@ -604,7 +599,7 @@ var Ping;
             this.playerTwoConcede.register(callback);
         };
         return Engine;
-    })();
+    }());
     Ping.Engine = Engine;
 })(Ping || (Ping = {}));
 /// <reference path="GameState.ts" />
@@ -621,59 +616,60 @@ var Ping;
 (function (Ping) {
     var Game = (function () {
         function Game(inputListener, canvas, gameSettings, rendererSettings, messages) {
-            var gameState = new Ping.GameState(gameSettings), clock = new Ping.Clock(gameSettings.clockInterval), applicationState = new Ping.ApplicationState(0 /* ready */, gameState), renderer = new Ping.Renderer(applicationState, canvas, rendererSettings, messages), engine = new Ping.Engine(gameState, gameSettings);
+            var gameState = new Ping.GameState(gameSettings), clock = new Ping.Clock(gameSettings.clockInterval), applicationState = new Ping.ApplicationState(Ping.ApplicationStates.ready, gameState), renderer = new Ping.Renderer(applicationState, canvas, rendererSettings, messages), engine = new Ping.Engine(gameState, gameSettings);
             inputListener.onStartPlayerOneMovingUp(function () {
-                if (applicationState.state === 1 /* playing */) {
-                    gameState.leftPaddle.direction = 0 /* up */;
+                if (applicationState.state === Ping.ApplicationStates.playing) {
+                    gameState.leftPaddle.direction = Ping.Direction.up;
                 }
             });
             inputListener.onStartPlayerOneMovingDown(function () {
-                if (applicationState.state === 1 /* playing */) {
-                    gameState.leftPaddle.direction = 1 /* down */;
+                if (applicationState.state === Ping.ApplicationStates.playing) {
+                    gameState.leftPaddle.direction = Ping.Direction.down;
                 }
             });
             inputListener.onStopPlayerOneMoving(function () {
-                if (applicationState.state === 1 /* playing */) {
-                    gameState.leftPaddle.direction = 2 /* none */;
+                if (applicationState.state === Ping.ApplicationStates.playing) {
+                    gameState.leftPaddle.direction = Ping.Direction.none;
                 }
             });
             inputListener.onStartPlayerTwoMovingUp(function () {
-                if (applicationState.state === 1 /* playing */) {
-                    gameState.rightPaddle.direction = 0 /* up */;
+                if (applicationState.state === Ping.ApplicationStates.playing) {
+                    gameState.rightPaddle.direction = Ping.Direction.up;
                 }
             });
             inputListener.onStartPlayerTwoMovingDown(function () {
-                if (applicationState.state === 1 /* playing */) {
-                    gameState.rightPaddle.direction = 1 /* down */;
+                if (applicationState.state === Ping.ApplicationStates.playing) {
+                    gameState.rightPaddle.direction = Ping.Direction.down;
                 }
             });
             inputListener.onStopPlayerTwoMoving(function () {
-                if (applicationState.state === 1 /* playing */) {
-                    gameState.rightPaddle.direction = 2 /* none */;
+                if (applicationState.state === Ping.ApplicationStates.playing) {
+                    gameState.rightPaddle.direction = Ping.Direction.none;
                 }
             });
             inputListener.onPause(function () {
-                if (applicationState.state === 1 /* playing */) {
+                if (applicationState.state === Ping.ApplicationStates.playing) {
                     clock.stop();
-                    applicationState.state = 2 /* paused */;
+                    applicationState.state = Ping.ApplicationStates.paused;
                     renderer.render();
                 }
-                else if (applicationState.state === 2 /* paused */) {
+                else if (applicationState.state === Ping.ApplicationStates.paused) {
                     clock.start();
-                    applicationState.state = 1 /* playing */;
+                    applicationState.state = Ping.ApplicationStates.playing;
                     renderer.render();
                 }
             });
             inputListener.onStart(function () {
-                if (applicationState.state === 0 /* ready */ || applicationState.state === 3 /* gameOver */) {
+                if (applicationState.state === Ping.ApplicationStates.ready ||
+                    applicationState.state === Ping.ApplicationStates.gameOver) {
                     gameState.init();
-                    applicationState.state = 1 /* playing */;
+                    applicationState.state = Ping.ApplicationStates.playing;
                     renderer.render();
                     clock.start();
                 }
             });
             clock.onTick(function () {
-                if (applicationState.state === 1 /* playing */) {
+                if (applicationState.state === Ping.ApplicationStates.playing) {
                     engine.step();
                 }
                 renderer.render();
@@ -681,7 +677,7 @@ var Ping;
             engine.onPlayerOneConcede(function () {
                 gameState.rightPoints++;
                 if (gameState.rightPoints === gameSettings.winningScore) {
-                    applicationState.state = 3 /* gameOver */;
+                    applicationState.state = Ping.ApplicationStates.gameOver;
                     clock.stop();
                 }
                 else {
@@ -691,7 +687,7 @@ var Ping;
             engine.onPlayerTwoConcede(function () {
                 gameState.leftPoints++;
                 if (gameState.leftPoints === gameSettings.winningScore) {
-                    applicationState.state = 3 /* gameOver */;
+                    applicationState.state = Ping.ApplicationStates.gameOver;
                     clock.stop();
                 }
                 else {
@@ -701,7 +697,7 @@ var Ping;
             renderer.render();
         }
         return Game;
-    })();
+    }());
     Ping.Game = Game;
 })(Ping || (Ping = {}));
 /// <reference path="KeyboardAndMouseInputListener.ts" />
@@ -727,12 +723,12 @@ var Ping;
         gameAreaWidth: 480,
         gameAreaBackgroundColour: '#000000',
         paddleWidth: 10,
-        paddleHeight: 40,
+        paddleHeight: 50,
         paddleInset: 10,
-        paddleSpeed: 8,
+        paddleSpeed: 10,
         paddleColour: '#FFFFFF',
         ballRadius: 5,
-        ballSpeed: 15,
+        ballSpeed: 18,
         ballColour: '#FFFFFF',
         winningScore: 10,
         clockInterval: 50
@@ -742,13 +738,13 @@ var Ping;
         scoreTextFont: '20px Monospace',
         scoreTextTopMargin: 10,
         messageMaskStyle: 'rgba(0, 0, 0, 0.75)',
-        messageTextFont: '25px Arial',
+        messageTextFont: '20px Arial',
         messageTextStyle: '#FFFFFF'
     };
     messages = {
         ready: 'Click to play',
         paused: 'Paused',
-        gameOver: 'Game Over. Click to play again.'
+        gameOver: 'Click to play again'
     };
     game = new Ping.Game(inputListener, canvas, gameSettings, rendererSettings, messages);
 })(Ping || (Ping = {}));
