@@ -1,6 +1,6 @@
 /// <reference path="KeyboardAndMouseInputListener.ts" />
 /// <reference path="KeyMap.ts" />
-/// <reference path="Game.ts" />
+/// <reference path="Game/Game.ts" />
 /// <reference path="GameSettings.ts" />
 /// <reference path="Messages.ts" />
 /// <reference path="RendererSettings.ts" />
@@ -12,7 +12,7 @@ module Ping {
         gameSettings : GameSettings,
         rendererSettings : RendererSettings,
         messages : Messages,
-        game : Game;
+        game : Game.Game;
 
     canvas = <HTMLCanvasElement> document.getElementById('PingCanvas');
 
@@ -57,5 +57,5 @@ module Ping {
         gameOver: 'Click to play again'
     };
 
-    game = new Game(inputListener, canvas, gameSettings, rendererSettings, messages);
+    game = new Game.Game(inputListener, canvas, gameSettings, rendererSettings, messages);
 }
